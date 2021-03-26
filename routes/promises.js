@@ -1,11 +1,27 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
+const { check, validationResult } = require('express-validator');
+
+const User = require('../models/User');
+const Promise = require('../models/Promise');
+
 
 // @route   Get    api/promises
 // @desc    Get all users promises
 // @access  Private
-router.get('/', (req, res) => {
-    res.send('Get all promises')
+router.get('/', auth, async (req, res) => {
+    try {
+        // Get promises with a connection to user
+        // with auth we have access to req.user
+        //Call .find() passing in, ({ user: req.user.id }) user matches
+        const promises = await Promise.find({ user: req.user.id });
+        // return promises 
+        res.json(promises);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
 });
 
 // @route   POST    api/promises
