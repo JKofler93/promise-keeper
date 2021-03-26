@@ -1,7 +1,14 @@
 const mongoose = require('mongoose');
 
 const PromiseSchema = mongoose.Schema({
-    name: {
+    // setting up relationship to user
+    user: {
+        // MongoDB document has an ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        // refer to the collection of users
+        ref: 'users'
+    }, 
+    content: {
         type: String,
         required: true
     },

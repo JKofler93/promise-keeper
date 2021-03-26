@@ -27,8 +27,33 @@ router.get('/', auth, async (req, res) => {
 // @route   POST    api/promises
 // @desc    Add new promises
 // @access  Private
-router.post('/', (req, res) => {
-    res.send('Add promises')
+router.post('/', [ auth, [
+    check('content', 'Content is required').not().isEmpty()
+    ]
+], 
+async (req, res) => {
+    const errors = validationResult(req); 
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() })
+    }
+    // grab what we want
+    const { content, completed, date } = req.body;
+
+    try {
+        const newPromise = new Promise({ 
+            content,
+            completed,
+            date,
+            user: req.user.id
+        });
+
+        const promise = await newPromise.save();
+
+        res.json(promise);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
 });
 
 // @route   PUT    api/promises/:id
