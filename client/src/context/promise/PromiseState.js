@@ -1,6 +1,6 @@
 // gives access to state and dispatch
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
+import { v4 as uuid} from 'uuid';
 import PromiseContext from './promiseContext';
 import promiseReducer from './promiseReducer';
 import {
@@ -34,5 +34,40 @@ const PromiseState = props => {
                 completed: false
             }
         ]
+    };
+    // state allows us to access anything in out state.
+    // dispatch allows us to dispatch objects to the reducer.
+    const [state, dispatch] = useReducer(promiseReducer, initialState);
+
+    // ADD_PROMISE
+    const addPromise = promise => {
+        promise.id = uuid.v4;
+        dispatch({ type: ADD_PROMISE, payload: promise })
     }
-}
+
+    // DELETE_PROMISE
+
+    // UPDATE_PROMISE
+
+    // SET_CURRENT PROMISE
+
+    // CLEAR_CURRENT PROMISE
+
+    // FILTER_PROMISES
+
+    // CLEAR_FILTER
+
+
+    return (
+        <PromiseContext.Provider
+            value={{
+                promises: state.promises, 
+                addPromise
+            }}    
+        >
+            { props.children }
+        </PromiseContext.Provider>
+    )
+};
+
+export default PromiseState;

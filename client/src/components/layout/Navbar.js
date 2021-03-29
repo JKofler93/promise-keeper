@@ -2,12 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-function Navbar({ title, icon }) {
+function Navbar({ title}) {
     return (
         <div className="navbar bg-primary">
-            <h1>
-                <i className={icon}/> {title}
-            </h1>
+            <h1>{title}</h1>
             <ul>
                 <li>
                     <NavLink to="/" exact>Home</NavLink>
@@ -21,13 +19,11 @@ function Navbar({ title, icon }) {
 }
 
 Navbar.prototype = {
-    title: PropTypes.string.isRequired,
-    icon: PropTypes.string
+    title: PropTypes.string.isRequired
 }
 
 Navbar.defaultProps = {
-    title: 'Promise Keeper',
-    icon: 'fal fa-hands-helping'
+    title: 'Promise Keeper'
 }
 
 export default Navbar;

@@ -1,9 +1,16 @@
 import React from 'react';
+import Promises from '../promises/Promises';
+import PromiseForm from '../promises/PromiseForm';
 
 function Home() {
     return (
-        <div>
-           <h1>Home Page</h1> 
+        <div className="grid-2">
+            <div>
+                <PromiseForm/>
+            </div>
+            <div>
+                <Promises />
+            </div>
         </div>
     )
 }
