@@ -33,7 +33,8 @@ const PromiseState = props => {
                 content: "This is the third promise that is hard coded",
                 completed: false
             }
-        ]
+        ],
+        current: null
     };
     // state allows us to access anything in out state.
     // dispatch allows us to dispatch objects to the reducer.
@@ -46,23 +47,36 @@ const PromiseState = props => {
     }
 
     // DELETE_PROMISE
-
-    // UPDATE_PROMISE
-
+    const deletePromise = id => {
+        dispatch({ type: DELETE_PROMISE, payload: id })
+    }
+    
     // SET_CURRENT PROMISE
-
+    const setCurrent = promise => {
+        dispatch({ type: SET_CURRENT, payload: promise })
+    }
+    
     // CLEAR_CURRENT PROMISE
-
-    // FILTER_PROMISES
-
-    // CLEAR_FILTER
+    const clearCurrent = () => {
+        dispatch({ type: CLEAR_CURRENT})
+    }
+    
+    // UPDATE_PROMISE
+    const updatePromise = promise => {
+        dispatch({ type: UPDATE_PROMISE, payload: promise })
+    }
 
 
     return (
         <PromiseContext.Provider
             value={{
-                promises: state.promises, 
-                addPromise
+                promises: state.promises,
+                current: state.current,
+                addPromise,
+                deletePromise,
+                setCurrent,
+                clearCurrent,
+                updatePromise
             }}    
         >
             { props.children }

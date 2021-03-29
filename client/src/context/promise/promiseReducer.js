@@ -18,7 +18,31 @@ const reducer = (state, action) => {
         return {
             ...state,
             promises: [...state.promises, action.payload]
-        }
+        };
+
+        case UPDATE_PROMISE:
+            return {
+                ...state,
+                promises: state.promises.map(promise => promise.id === action.payload.id ? action.payload : promise)
+            };
+
+        case DELETE_PROMISE:
+            return {
+                ...state,
+                promises: state.promises.filter(promise => promise.id !== action.payload)
+            };
+
+        case SET_CURRENT:
+            return {
+                ...state,
+                current: action.payload
+            };
+
+        case CLEAR_CURRENT:
+            return {
+                ...state,
+                current: null
+            };
 
         default: 
         return state;

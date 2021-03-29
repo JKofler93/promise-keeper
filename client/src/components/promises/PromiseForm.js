@@ -1,9 +1,22 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PromiseContext from '../../context/promise/promiseContext';
 
 const PromiseForm = () => {
 
     const promiseContext = useContext(PromiseContext);
+    const { addPromise, current, clearCurrent, updatePromise } = promiseContext;
+
+    useEffect(() => {
+        if(current !== null){
+            setPromise(current)
+        } 
+        else {
+            setPromise({ 
+                content: "",
+                completed: false
+            });
+        }
+    }, [promiseContext, current]);
 
     const [promise, setPromise] = useState({
         content: "",
@@ -12,26 +25,32 @@ const PromiseForm = () => {
 
     const { content, completed } = promise;
 
-    const onChange = (e) => setPromise({...promise, [e.target.name]: e.target.value});
+    const handleChange = (e) => setPromise({...promise, [e.target.name]: e.target.value});
 
-    const onSubmit = (e) => {
+    const clearForm = () => {
+        clearCurrent();
+    }
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        promiseContext.addPromise(promise);
-        setPromise({
-            content: "",
-            completed: false
-        });
+        if(current === null){
+            addPromise(promise);
+        }
+        else {
+            updatePromise(promise);
+        }
+        clearForm();
     };
     
     return (
-        <form onSubmit={onSubmit}>
-            <h2 className="text-primary">Add Promise</h2>
+        <form onSubmit={handleSubmit}>
+            <h2 className="text-primary">{current ? 'Edit your promise' : 'Add a promise'}</h2>
             <input 
                 type="text" 
                 placeholder="Write a promise to yourself..." 
                 name="content" 
                 value={content} 
-                onChange={onChange}
+                onChange={handleChange}
             />
 
             {/* <h5>Promise Kept?</h5>
@@ -40,7 +59,7 @@ const PromiseForm = () => {
                 name="completed" 
                 value="No" 
                 checked={completed === false}
-                onChange={onChange}
+                onChange={handleChange}
             /> Promise Unfulfilled!
             <br></br>
             <input 
@@ -48,16 +67,24 @@ const PromiseForm = () => {
                 name="completed" 
                 value="Yes" 
                 checked={completed === true}
-                onChange={onChange}
+                onChange={handleChange}
             /> Promise Fulfilled! */}
 
             <div>
                 <input 
                     type="submit" 
-                    value="Add Promise" 
+                    value={current ? 'Are you sure about that?' : 'You promise?'}
                     className="btn btn-primary btn-block"
                 />
             </div>
+            {current &&
+                <div>
+                    <button
+                        className="btn btn-light btn-block"
+                        onClick={clearForm}
+                    >Clear</button>
+                </div>
+            }
         </form>
     )
 }
