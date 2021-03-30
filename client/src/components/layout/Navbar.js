@@ -13,6 +13,12 @@ function Navbar({ title}) {
                 <li>
                     <NavLink to="/about" exact>About</NavLink>
                 </li>
+                <li>
+                    <NavLink to="/register" exact>Register</NavLink>
+                </li>
+                <li>
+                    <NavLink to="/login" exact>Login</NavLink>
+                </li>
             </ul>
         </div>
     )

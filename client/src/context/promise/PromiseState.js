@@ -9,8 +9,6 @@ import {
     SET_CURRENT,
     CLEAR_CURRENT,
     UPDATE_PROMISE,
-    FILTER_PROMISES,
-    CLEAR_FILTER,
     SET_ALERT,
     REMOVE_ALERT
 } from '../types.js'
